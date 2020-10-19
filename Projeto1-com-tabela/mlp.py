@@ -357,5 +357,5 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 	err = tracks_test(eta=0.5,alpha=0.7)
 	table.add_row([500,0.5,0.7,0.7,err['error_1'],err['error_2']])
 
-	# Imprimindo os resultados
+	# Imprimindo os resultados em tabelas
 	print(table)
