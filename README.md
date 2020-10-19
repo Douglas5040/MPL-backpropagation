@@ -1,1 +1,1 @@
-# MPL-backpropagation ptojeto 1 de Redes Neurais USP
+# MPL-backpropagation projeto 1 de Redes Neurais USP
