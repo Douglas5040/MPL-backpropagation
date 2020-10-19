@@ -1,37 +1,47 @@
-# Exercicio 2 da matéria de Redes Neurais
-#	Felipe Alegria Rollo Dias	nUSP 9293501
-#	Leonardo Piccaro Rezende	nUSP 9364611
-#
+'''
+Instituto de Ciencias Matematicas e de Computacao - USP São Carlos
+SCC5809: Redes Neurais
 
+Exercício 03: MLP + RBF
+Equipe:
+ID. Matricula (01) - 12116252 Dheniffer Caroline Araújo Pessoa
+
+ID. Matricula (02) - 12114819 Douglas Queiroz Galucio Batista 
+
+ID. Matricula (03) - 12116738 Laleska Mesquita
+'''
+
+
+# Importação das bibliotecas
 import numpy as np
 import os
 import random
 from prettytable import PrettyTable
 from sklearn.preprocessing import scale
 
-# Classe que representa uma MLP com sua propria arquitetura
+# Classe que representa uma MLP (Perceptron Multi-Camada)
 class MLP(object):
 
-	# Dictionary do python para armazenar o modelo da MLP
+	# Dicionário do python para armazenar o modelo da MLP
 	model = {}
 	dE2_dw_h_b = 0
 	dE2_dw_o_b = 0
 
 	# Construtor da classe
 	def __init__(self):
-		# Iniatialize MLP class
+		# Inicializa os parâmetros para a MLP
 		#self.architecture()
 		return
 
-	# Função de Ativação dos neuronios da MLP
+	# Função de Ativação
 	def fnet(net):
 		return (1 / (1 + np.exp(-net)))
 
-	# Função para calcula a derivada
+	# Função para calcular a derivada
 	def df_dnet(f_net):
 		return (f_net * (1 - f_net))
 
-	# Função que inicializa a arquitetura da MLP baseado no problema especifico
+	# Função que inicializa a arquitetura da MLP 
 	def architecture(self,input_lenght=13,hidden_lenght=5,output_lenght=3,fnet=fnet,df_dnet=df_dnet):
 		self.model['input_lenght'] = input_lenght
 		self.model['hidden_lenght'] = hidden_lenght
@@ -41,18 +51,16 @@ class MLP(object):
 		self.model['fnet'] = fnet
 		self.model['df_dnet'] = df_dnet
 
-	# Realiza o forward do algoritmo, onde calcula o output final a partir dos pesos atuais
+	# Função que efetua o forward do algoritmo, no qual é calculado o output final a partir dos pesos atuais
 	def forward(self, X):
-		#Retirando os valores do modelo
+		#Removendo os valores do modelo
 		hidden = self.model['hidden_layer'] 
 		output = self.model['output_layer']
 		#Adicionando o 1 para a multiplicação
 		X = np.concatenate((X,np.array([1])))
 
-		#print('hidden=',hidden,'\n')
-		#print('output=',output,'\n')
 		
-		#CAMADA ESCONDIDA
+		#Camada Oculta
 		net_h = np.matmul(hidden,X)
 		#print('net_h=',net_h,'\n')
 		f_net_h = self.model['fnet'](net_h)
@@ -60,7 +68,7 @@ class MLP(object):
 		df_net_h = self.model['df_dnet'](f_net_h)
 		#f_net_h = np.rint(f_net_h)
 		
-		#CAMADA SAÍDA
+		#Camada de saída
 		f_net_h_c = np.concatenate((f_net_h,np.array([1])))
 		net_o = np.matmul(output,f_net_h_c)
 		#print('net_o=',net_o,'\n')
@@ -77,12 +85,12 @@ class MLP(object):
 			"df_net_o":df_net_o
 		}
 
-	# Realiza o treinamento da rede utilizando backpropagation com regra delta
+	# Função que realiza o treinamento da rede utilizando o backpropagation com regra delta
 	def backpropagation(self,X,Y,eta=0.5,alpha=0.5,max_error=0.000001,max_iter=500):
 		counter = 0
 		total_error = 2*max_error
 
-		# Treinamento ocorre enquanto o erro for maior que o aceitavel ou o numero maximo de iterações nao tiver sido atingido
+		# Estrutura de repetição do treinamento que acontece enquanto o erro for maior que o aceitável ou o numero máximo de iterações não tiver sido atingido
 		while total_error > max_error and counter < max_iter:
 			total_error = 0
 
@@ -103,7 +111,7 @@ class MLP(object):
 				
 				total_error = total_error + np.sum(error_o_k*error_o_k)
 
-				#backpropagation / calculo das derivadas
+				#backpropagation / cálculo das derivadas
 				delta_out = error_o_k*fw['df_net_o']
 				dE2_dw_o = np.multiply(np.array([-2*delta_out]).T,np.concatenate((fw['f_net_h'],np.array([1]))))
 
@@ -122,7 +130,7 @@ class MLP(object):
 				self.dE2_dw_o_b = dE2_dw_o
 				self.dE2_dw_h_b = dE2_dw_h
 
-			# Término da iteração do treinamento
+			# Término da iteração da função de treinamento
 			total_error = total_error/X.shape[0]
 			counter = counter+1
 			if (counter % 100) == 0:
@@ -180,15 +188,16 @@ class MLP(object):
 			"accuracy": accuracy,
 			"error": sqerror
 		}
-	#END OF MLP CLASS
-#diferença
+	#Fim da classe MLP
+
+#Diferença
 def diff(first, second):
         second = set(second)
         return [item for item in first if item not in second]
 
 
 
-# Reads the contents from a file and transforms in matrix
+# Função que lê o conteúdo de um arquivo e transforma em matriz
 def matrix(contents):
 	return [item.split(',') for item in contents.split('\n')[:-1]]
 
@@ -206,18 +215,18 @@ def class_ind(Y):
 def wine_test(eta=0.1,alpha=0,max_iter=500,train_size=0.7):
 	for file in os.listdir():
 		if(file.endswith('.data')):
-			# Preprocessing wine data set
+			# Pré-processamento dos arquivos do Dataset 'Wine'
 			data = open(file).read()
 			X = matrix(data)
 			X = np.array(X)
 			X = X.astype(np.float)
 			Y = X[:,0]
 			X = X[:,1:X.shape[1]]
-			# Normalizing X
+			# Normalizando X
 			for i in range(X.shape[1]):
 				X[:,i] = (X[:,i] - np.amin(X[:,i])) / (np.amax(X[:,i]) - np.amin(X[:,i]))
 			
-			# Binarizing the classes output
+			# Binarizando as classes output
 			Y = class_ind(Y)
 			
 
@@ -231,7 +240,7 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 	ret = {}
 	for file in os.listdir():
 		if(file.endswith('.txt')):
-			# Preprocessing the files for Origin of Music
+			# Pré-processamento dos arquivos do Dataset 'Origin of Music'
 			data = open(file).read()
 			X = matrix(data)
 			X = np.array(X)
@@ -239,7 +248,7 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 			Y = X[:,X.shape[1]-2:X.shape[1]]
 			X = X[:,0:X.shape[1]-2]
 
-			# Normalizing X and Y
+			# Normalizando X e Y
 			for i in range(X.shape[1]):
 				X[:,i] = (X[:,i] - np.amin(X[:,i])) / (np.amax(X[:,i]) - np.amin(X[:,i]))
 			for i in range(Y.shape[1]):
@@ -249,13 +258,13 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 			res = mlp.run(X,Y,'R',eta=eta,alpha=alpha,max_iter=max_iter,train_size=train_size)
 			
 
-			# Saving the error for each file in different positions
+			# Salvando o erro para cada arquivo em posições diferentes
 			if n == 1:
 				ret['error_1'] = res['error']
 			if n == 2:
 				ret['error_2'] = res['error']
 
-			# Adding the counter of file
+			# Adicionando o contador do arquivo
 			n = n+1
 
 	return ret
@@ -316,7 +325,7 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 	table = PrettyTable()
 	table.field_names = ["Number of Cycles","Learning Speed","Momentum","Training set size","First file Mean Square Error","Second file Mean Square Error"]
 
-	#Variating Learning Speed
+	#Variando a velocidade de aprendizagem
 	err = tracks_test(eta=0.1)
 	table.add_row([500,0.1,0.5,0.7,err['error_1'],err['error_2']])
 	err = tracks_test(eta=0.3)
@@ -324,7 +333,7 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 	err = tracks_test(eta=0.5)
 	table.add_row([500,0.5,0.5,0.7,err['error_1'],err['error_2']])
 
-	#Variating Number of Cycles
+	#Variando o número de ciclos
 	err = tracks_test(eta=0.5,max_iter=300)
 	table.add_row([300,0.5,0.5,0.7,err['error_1'],err['error_2']])
 	err = tracks_test(eta=0.5,max_iter=500)
@@ -332,7 +341,7 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 	err = tracks_test(eta=0.5,max_iter=700)
 	table.add_row([1000,0.5,0.5,0.7,err['error_1'],err['error_2']])
 
-	#Variating Training Set Size
+	#Variando o tamanho do conjunto de treinamento
 	err = tracks_test(eta=0.5,train_size=0.5)
 	table.add_row([500,0.5,0.5,0.5,err['error_1'],err['error_2']])
 	err = tracks_test(eta=0.5,train_size=0.75)
@@ -340,7 +349,7 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 	err = tracks_test(eta=0.5,train_size=0.9)
 	table.add_row([500,0.5,0.5,0.9,err['error_1'],err['error_2']])
 
-	#Variating Momentum
+	#Variando o Momentum
 	err = tracks_test(eta=0.5,alpha=0.1)
 	table.add_row([500,0.5,0.1,0.7,err['error_1'],err['error_2']])
 	err = tracks_test(eta=0.5,alpha=0.3)
@@ -348,5 +357,5 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 	err = tracks_test(eta=0.5,alpha=0.7)
 	table.add_row([500,0.5,0.7,0.7,err['error_1'],err['error_2']])
 
-	# Printing Results
+	# Imprimindo os resultados
 	print(table)
