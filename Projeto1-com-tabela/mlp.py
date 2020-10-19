@@ -181,6 +181,12 @@ class MLP(object):
 			"error": sqerror
 		}
 	#END OF MLP CLASS
+#diferença
+def diff(first, second):
+        second = set(second)
+        return [item for item in first if item not in second]
+
+
 
 # Reads the contents from a file and transforms in matrix
 def matrix(contents):
@@ -196,10 +202,6 @@ def class_ind(Y):
 
 	#print('res=',res,'\n')
 	return res
-
-def diff(first, second):
-        second = set(second)
-        return [item for item in first if item not in second]
 
 def wine_test(eta=0.1,alpha=0,max_iter=500,train_size=0.7):
 	for file in os.listdir():
@@ -264,52 +266,52 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 #################################################################################
 
 
-print("Starting program...\n")
-print("Choose database:\n\t1-Wine\n\t2-Geographical Original of Music\n")
-op = input()
-op = int(op)
+# print("Starting program...\n")
+# print("Choose database:\n\t1-Wine\n\t2-Geographical Original of Music\n")
+# op = input()
+# op = int(op)
 
-if op == 1: # If wine database is chosen
-	print('Wine Choosen')
-	table = PrettyTable()
-	table.field_names = ["Number of Cycles","Learning Speed","Momentum","Training set size","Accuracy"]
+# if op == 1: # If wine database is chosen
+# 	print('Wine Choosen')
+# 	table = PrettyTable()
+# 	table.field_names = ["Number of Cycles","Learning Speed","Momentum","Training set size","Accuracy"]
 
-	# Variation Learning Speed
-	ret = wine_test(eta=0.1)
-	table.add_row([500,0.1,0,0.7,ret['accuracy']])
-	ret = wine_test(eta=0.3)
-	table.add_row([500,0.3,0,0.7,ret['accuracy']])
-	ret = wine_test(eta=0.5)
-	table.add_row([500,0.5,0,0.7,ret['accuracy']])
+# 	# Variation Learning Speed
+# 	ret = wine_test(eta=0.1)
+# 	table.add_row([500,0.1,0,0.7,ret['accuracy']])
+# 	ret = wine_test(eta=0.3)
+# 	table.add_row([500,0.3,0,0.7,ret['accuracy']])
+# 	ret = wine_test(eta=0.5)
+# 	table.add_row([500,0.5,0,0.7,ret['accuracy']])
 
-	# Variating Number of Cycles
-	ret = wine_test(max_iter=250)
-	table.add_row([250,0.1,0,0.7,ret['accuracy']])
-	ret = wine_test(max_iter=750)
-	table.add_row([750,0.1,0,0.7,ret['accuracy']])
-	ret = wine_test(max_iter=1000)
-	table.add_row([1000,0.1,0,0.7,ret['accuracy']])
+# 	# Variating Number of Cycles
+# 	ret = wine_test(max_iter=250)
+# 	table.add_row([250,0.1,0,0.7,ret['accuracy']])
+# 	ret = wine_test(max_iter=750)
+# 	table.add_row([750,0.1,0,0.7,ret['accuracy']])
+# 	ret = wine_test(max_iter=1000)
+# 	table.add_row([1000,0.1,0,0.7,ret['accuracy']])
 
-	# Variating Training set size
-	ret = wine_test(train_size=0.5)
-	table.add_row([500,0.1,0,0.5,ret['accuracy']])
-	ret = wine_test(train_size=0.6)
-	table.add_row([500,0.1,0,0.6,ret['accuracy']])
-	ret = wine_test(train_size=0.9)
-	table.add_row([500,0.1,0,0.9,ret['accuracy']])
+# 	# Variating Training set size
+# 	ret = wine_test(train_size=0.5)
+# 	table.add_row([500,0.1,0,0.5,ret['accuracy']])
+# 	ret = wine_test(train_size=0.6)
+# 	table.add_row([500,0.1,0,0.6,ret['accuracy']])
+# 	ret = wine_test(train_size=0.9)
+# 	table.add_row([500,0.1,0,0.9,ret['accuracy']])
 
-	# Variation Momentum
-	ret = wine_test(alpha=0.1)
-	table.add_row([500,0.1,0.1,0.7,ret['accuracy']])
-	ret = wine_test(alpha=0.3)
-	table.add_row([500,0.1,0.3,0.7,ret['accuracy']])
-	ret = wine_test(alpha=0.7)
-	table.add_row([500,0.1,0.7,0.7,ret['accuracy']])
+# 	# Variation Momentum
+# 	ret = wine_test(alpha=0.1)
+# 	table.add_row([500,0.1,0.1,0.7,ret['accuracy']])
+# 	ret = wine_test(alpha=0.3)
+# 	table.add_row([500,0.1,0.3,0.7,ret['accuracy']])
+# 	ret = wine_test(alpha=0.7)
+# 	table.add_row([500,0.1,0.7,0.7,ret['accuracy']])
 
-	# Printing Results
-	print(table)
+# 	# Printing Results
+# 	print(table)
 
-elif op == 2:
+# elif op == 2:
 	print('Origin of Music Choosen')
 	table = PrettyTable()
 	table.field_names = ["Number of Cycles","Learning Speed","Momentum","Training set size","First file Mean Square Error","Second file Mean Square Error"]
