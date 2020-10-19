@@ -2,7 +2,7 @@
 Instituto de Ciencias Matematicas e de Computacao - USP São Carlos
 SCC5809: Redes Neurais
 
-Exercício 03: MLP + RBF
+Projeto 01: MLP - Backpropagation
 Equipe:
 ID. Matricula (01) - 12116252 Dheniffer Caroline Araújo Pessoa
 
