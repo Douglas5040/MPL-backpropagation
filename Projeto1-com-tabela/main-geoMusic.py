@@ -16,7 +16,7 @@ from mlp import MLP
 from prettytable import PrettyTable
 
 
-# Método para ler e tranformar em matriz
+# Método para ler o conteúdo e transformar em matriz
 
 def dados_in(contents): #matrix
 	return [item.split(',') for item in contents.split('\n')[:-1]]
