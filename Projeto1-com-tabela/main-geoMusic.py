@@ -1,10 +1,22 @@
+'''
+Instituto de Ciencias Matematicas e de Computacao - USP São Carlos
+SCC5809: Redes Neurais
+
+Projeto 01: MLP - Backpropagation
+Equipe:
+ID. Matricula (01) - 12116252 Dheniffer Caroline Araújo Pessoa
+
+ID. Matricula (02) - 12114819 Douglas Queiroz Galucio Batista 
+
+ID. Matricula (03) - 12116738 Laleska Mesquita
+'''
 import numpy as np
 import os
 from mlp import MLP
 from prettytable import PrettyTable
 
 
-# Aqui vamos ler o conteudo e tranformar em matriz
+# Método para ler e tranformar em matriz
 
 def dados_in(contents): #matrix
 	return [item.split(',') for item in contents.split('\n')[:-1]]
@@ -36,7 +48,7 @@ def music_geo_test(eta=0.1, alpha=0.5, max_iter=500, train_size=0.7): #track_tes
 			res = mlp.run(X, Y, 'R', alpha=alpha, max_iter=max_iter, eta=eta, train_size=train_size)
 			ret['precisao'] = res['precisao']
 
-			# armazenando valores da variavel erro
+			# Armazenando valores da variável erro
 			if (n == 1):
 				ret['err_1'] = res['err']
 			if n == 2:
@@ -60,8 +72,8 @@ table.add_row([500,0.3,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
 err = music_geo_test(eta=0.5)
 table.add_row([500,0.5,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
 
-# Numero de Ciclos
-print('\n\n### Testando Numero de Ciclos ###')
+# Número de Ciclos
+print('\n\n### Testando Número de Ciclos ###')
 err = music_geo_test(eta=0.5,max_iter=300)
 table.add_row([300,0.5,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
 err = music_geo_test(eta=0.5,max_iter=500)
@@ -82,8 +94,8 @@ table.add_row([500,0.5,0.5,0.9,err['err_1'],err['err_2'],err['precisao']])
 err = music_geo_test(eta=0.5,train_size=1.5)
 table.add_row([500,0.5,0.5,0.9,err['err_1'],err['err_2'],err['precisao']])
 
-# Momento 
-print('\n\n### Testando Momento ###')
+# Momentum
+print('\n\n### Testando Momentum ###')
 err = music_geo_test(eta=0.5,alpha=0.1)
 table.add_row([500,0.5,0.1,0.7,err['err_1'],err['err_2'],err['precisao']])
 err = music_geo_test(eta=0.5,alpha=0.3)
@@ -93,5 +105,5 @@ table.add_row([500,0.5,0.7,0.7,err['err_1'],err['err_2'],err['precisao']])
 err = music_geo_test(eta=0.5,alpha=1)
 table.add_row([500,0.5,0,0.7,err['err_1'],err['err_2'],err['precisao']])
 
-# Mostra tabela
+# Imprime os resultados na tabela
 print(table)

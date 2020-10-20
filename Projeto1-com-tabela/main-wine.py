@@ -1,10 +1,23 @@
+'''
+Instituto de Ciencias Matematicas e de Computacao - USP São Carlos
+SCC5809: Redes Neurais
+
+Projeto 01: MLP - Backpropagation
+Equipe:
+ID. Matricula (01) - 12116252 Dheniffer Caroline Araújo Pessoa
+
+ID. Matricula (02) - 12114819 Douglas Queiroz Galucio Batista 
+
+ID. Matricula (03) - 12116738 Laleska Mesquita
+'''
+
 from mlp import MLP
 import os
 import numpy as np
 from prettytable import PrettyTable
 
 
-# Input dados - gerar matriz
+# Método para ler o conteúdo e transformar em matriz
 def dados_in(contents):
 	return [item.split(',') for item in contents.split('\n')[:-1]]
 
@@ -23,18 +36,18 @@ def wine_test(eta=0.1,alpha=0,max_iter=500,train_size=0.7):
 	for file in os.listdir("datasets"):
 		if(file.endswith('.data')):
 			print('\nfile: ', file)
-			# Preprocessing wine data set
+			# Aqui estamos fazendo o pré-processamento do Dataset 'wine'
 			data = open("datasets/"+file).read()
 			X = dados_in(data)
 			X = np.array(X)
 			X = X.astype(np.float)
 			Y = X[:,0]
 			X = X[:,1:X.shape[1]]
-			# Normalizing X
+			# Normalizando X
 			for i in range(X.shape[1]):
 				X[:,i] = (X[:,i] - np.amin(X[:,i])) / (np.amax(X[:,i]) - np.amin(X[:,i]))
 			
-			# Binarizing the classes output
+			# Binarizando as classes output
 			Y = class_ind(Y)
 			
 
@@ -47,7 +60,7 @@ print('Wine')
 table = PrettyTable()
 table.field_names = ["Numero de Ciclos","Velocidade de Aprendizagem","Momento","Tamanho do conj Treinamento","Erro do quadrado", "precisao"]
 
-# Variation Learning Speed
+# Variação da velocidade de aprendizagem
 print('\n\n### Testando Velocidade de Aprendizagem ###')
 ret = wine_test(eta=0.1)
 table.add_row([500,0.1,0,0.7,ret['err'],ret['precisao']])
@@ -56,7 +69,7 @@ table.add_row([500,0.3,0,0.7,ret['err'],ret['precisao']])
 ret = wine_test(eta=0.5)
 table.add_row([500,0.5,0,0.7,ret['err'],ret['precisao']])
 
-# Variating Number of Cycles
+# Variação do número de ciclos (épocas)
 print('\n\n### Testando Numero de Ciclos ###')
 ret = wine_test(max_iter=250)
 table.add_row([250,0.1,0,0.7,ret['err'],ret['precisao']])
@@ -65,7 +78,7 @@ table.add_row([750,0.1,0,0.7,ret['err'],ret['precisao']])
 ret = wine_test(max_iter=1000)
 table.add_row([1000,0.1,0,0.7,ret['err'],ret['precisao']])
 
-# Variating Training set size
+# Variando o tamanho do conjunto de treinamento
 print('\n\n### Testando Conjunto de Treinamento ###')
 ret = wine_test(train_size=0.5)
 table.add_row([500,0.1,0,0.5,ret['err'],ret['precisao']])
@@ -74,7 +87,7 @@ table.add_row([500,0.1,0,0.6,ret['err'],ret['precisao']])
 ret = wine_test(train_size=0.9)
 table.add_row([500,0.1,0,0.9,ret['err'],ret['precisao']])
 
-# Variation Momentum
+# Variação do Momentum
 print('\n\n### Testando Momento ###')
 ret = wine_test(alpha=0.1)
 table.add_row([500,0.1,0.1,0.7,ret['err'],ret['precisao']])
@@ -83,5 +96,5 @@ table.add_row([500,0.1,0.3,0.7,ret['err'],ret['precisao']])
 ret = wine_test(alpha=0.7)
 table.add_row([500,0.1,0.7,0.7,ret['err'],ret['precisao']])
 
-# Printing Results
+# Imprimindo os resultados em tabelas
 print(table)

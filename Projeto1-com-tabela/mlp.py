@@ -144,13 +144,13 @@ class MLP(object):
 		#print('ids',ids,'\n')
 		#print('ids_left',ids_left,'\n')
 
-		# Training Set
+		# Treinando Set
 		train_set = X[ids,:]
 		train_classes = Y[ids,:]
 		#print('X=',train_set)
 		#print('Y=',train_classes)
 
-		# Test Set
+		# Testando Set
 		test_set = X[ids_left,:]
 		test_classes = Y[ids_left,:]
 		#print('X=',test_set)
@@ -185,8 +185,8 @@ class MLP(object):
 		sqerror = sqerror/test_set.shape[0]
 		
 		return {
-			"precisao": accuracy,
-			"err": sqerror
+			"acurácia": accuracy,
+			"error": sqerror
 		}
 	#Fim da classe MLP
 
@@ -230,7 +230,7 @@ def wine_test(eta=0.1,alpha=0,max_iter=500,train_size=0.7):
 			Y = class_ind(Y)
 			
 
-	print('\nPreprocessing Wine Done')
+	print('\nPré-processamento da base Wine - Done')
 	mlp = MLP()
 	return mlp.run(X,Y,'C',eta=eta,alpha=alpha,max_iter=max_iter,train_size=train_size)
 
