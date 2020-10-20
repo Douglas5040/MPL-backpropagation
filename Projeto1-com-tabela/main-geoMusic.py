@@ -24,8 +24,7 @@ def dados_in(contents): #matrix
 # Aqui será definido os parametros de treinamento 
 def music_geo_test(eta=0.1, alpha=0.5, max_iter=500, train_size=0.7): #track_testes
 	mlp = MLP()
-	n = 1
-	ret = {}
+
 	for file in os.listdir("datasets"):
 		if(file.endswith('.txt')):
 			print('\nfile: ', file)
@@ -44,66 +43,55 @@ def music_geo_test(eta=0.1, alpha=0.5, max_iter=500, train_size=0.7): #track_tes
 				Y[:, i] = (Y[:, i] - np.amin(Y[:, i])) / \
 				           (np.amax(Y[:, i]) - np.amin(Y[:, i]))
 
-			print('Processando o aquivo Music ', n, ' okay')
-			res = mlp.run(X, Y, 'R', alpha=alpha, max_iter=max_iter, eta=eta, train_size=train_size)
-			ret['precisao'] = res['precisao']
 
-			# Armazenando valores da variável erro
-			if (n == 1):
-				ret['err_1'] = res['err']
-			if n == 2:
-				ret['err_2'] = res['err']
-
-			# Contador
-			n = n+1
-
-	return ret
+	print('Processando do Music ')
+	return mlp.run(X, Y, 'R', alpha=alpha, max_iter=max_iter, eta=eta, train_size=train_size)
 
 print('Music')
 table = PrettyTable()
-table.field_names = ["Numero de Ciclos","Velocidade de Aprendizagem","Momento","Tamanho do conj Treinamento","Erro do quadrado médio do primeiro arquivo","erro quadratico médio segundo arquivo", "precisao"]
+table.field_names = ["Numero de Ciclos","Velocidade de Aprendizagem","Momento","Tamanho do conj Treinamento","Erro do quadrado médio"]
 
 # Velocidade de Aprendizagem
 print('\n\n### Testando Velocidade de Aprendizagem ###')
 err = music_geo_test(eta=0.1)
-table.add_row([500,0.1,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.1,0.5,0.7,err['err']])
 err = music_geo_test(eta=0.3)
-table.add_row([500,0.3,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.3,0.5,0.7,err['err']])
 err = music_geo_test(eta=0.5)
-table.add_row([500,0.5,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.5,0.7,err['err']])
 
 # Número de Ciclos
 print('\n\n### Testando Número de Ciclos ###')
 err = music_geo_test(eta=0.5,max_iter=300)
-table.add_row([300,0.5,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([300,0.5,0.5,0.7,err['err']])
 err = music_geo_test(eta=0.5,max_iter=500)
-table.add_row([700,0.5,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([700,0.5,0.5,0.7,err['err']])
 err = music_geo_test(eta=0.5,max_iter=700)
-table.add_row([1000,0.5,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([1000,0.5,0.5,0.7,err['err']])
 err = music_geo_test(eta=0.5,max_iter=1000)
-table.add_row([1300,0.5,0.5,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([1300,0.5,0.5,0.7,err['err']])
 
 # Conjunto de Treinamento 
 print('\n\n### Testando Conjunto de Treinamento ###')
 err = music_geo_test(eta=0.5,train_size=0.5)
-table.add_row([500,0.5,0.5,0.5,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.5,0.5,err['err']])
 err = music_geo_test(eta=0.5,train_size=0.75)
-table.add_row([500,0.5,0.5,0.75,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.5,0.75,err['err']])
 err = music_geo_test(eta=0.5,train_size=0.8)
-table.add_row([500,0.5,0.5,0.9,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.5,0.9,err['err']])
 err = music_geo_test(eta=0.5,train_size=0.9)
-table.add_row([500,0.5,0.5,0.9,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.5,0.9,err['err']])
 
 # Momentum
 print('\n\n### Testando Momentum ###')
 err = music_geo_test(eta=0.5,alpha=0.1)
-table.add_row([500,0.5,0.1,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.1,0.7,err['err']])
 err = music_geo_test(eta=0.5,alpha=0.3)
-table.add_row([500,0.5,0.3,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.3,0.7,err['err']])
 err = music_geo_test(eta=0.5,alpha=0.7)
-table.add_row([500,0.5,0.7,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0.7,0.7,err['err']])
 err = music_geo_test(eta=0.5,alpha=1)
-table.add_row([500,0.5,0,0.7,err['err_1'],err['err_2'],err['precisao']])
+table.add_row([500,0.5,0,1,err['err']])
 
 # Imprime os resultados na tabela
 print(table)
