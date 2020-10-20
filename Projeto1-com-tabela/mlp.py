@@ -157,9 +157,9 @@ class MLP(object):
 		#print('Y=',test_classes)
 
 		self.architecture(input_lenght=X.shape[1],hidden_lenght=size,output_lenght=Y.shape[1])
-		print('MLP architecture created\nStarting Training')
+		print('Arquitetura da MLP Criada\nComeçando o treino')
 		self.backpropagation(train_set,train_classes,eta=eta,alpha=alpha,max_error=threshold,max_iter=max_iter)
-		print('Neural Network Trained\nStarting Testing')
+		print('Rede Neural Treinada\nComeçando o teste')
 		#print(mlp.forward(X)['f_net_o'])
 
 		correct = 0
@@ -180,12 +180,12 @@ class MLP(object):
 
 			pass
 
-		print('Neural Network Tested')
+		print('Rede Neural Testada')
 		accuracy = correct/test_set.shape[0]
 		sqerror = sqerror/test_set.shape[0]
 		
 		return {
-			"acurácia": accuracy,
+			"accurary": accuracy,
 			"error": sqerror
 		}
 	#Fim da classe MLP
