@@ -138,7 +138,7 @@ class MLP(object):
 
 		return
 
-	def run(self,X,Y,task,size=8,eta=0.1,alpha=0.5,max_iter=500,train_size=0.7,threshold=0.000001):
+	def run(self,X,Y,task,size=8,eta=0.1,alpha=0.5,max_iter=550,train_size=0.7,threshold=0.000001):
 		ids = random.sample(range(0,X.shape[0]),np.floor(train_size*X.shape[0]).astype(np.int))
 		ids_left = diff(range(0,X.shape[0]),ids)
 		#print('ids',ids,'\n')
@@ -176,7 +176,7 @@ class MLP(object):
 			error = y_i - y_hat_i
 			if (np.sum((error)**2) == 0):
 				correct = correct + 1
-				print('correct: ', correct)
+				#print('correct: ', correct)
 			sqerror = sqerror + np.sum(error*error)
 			#print('\n>>>>>>>>>>CORRECT: ', correct)
 
