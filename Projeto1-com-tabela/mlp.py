@@ -185,8 +185,8 @@ class MLP(object):
 		sqerror = sqerror/test_set.shape[0]
 		
 		return {
-			"accuracy": accuracy,
-			"error": sqerror
+			"precisao": accuracy,
+			"err": sqerror
 		}
 	#Fim da classe MLP
 
@@ -268,94 +268,3 @@ def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
 			n = n+1
 
 	return ret
-
-
-#################################################################################
-# INICIO DO PROGRAMA															#
-#################################################################################
-
-
-# print("Starting program...\n")
-# print("Choose database:\n\t1-Wine\n\t2-Geographical Original of Music\n")
-# op = input()
-# op = int(op)
-
-# if op == 1: # If wine database is chosen
-# 	print('Wine Choosen')
-# 	table = PrettyTable()
-# 	table.field_names = ["Number of Cycles","Learning Speed","Momentum","Training set size","Accuracy"]
-
-# 	# Variation Learning Speed
-# 	ret = wine_test(eta=0.1)
-# 	table.add_row([500,0.1,0,0.7,ret['accuracy']])
-# 	ret = wine_test(eta=0.3)
-# 	table.add_row([500,0.3,0,0.7,ret['accuracy']])
-# 	ret = wine_test(eta=0.5)
-# 	table.add_row([500,0.5,0,0.7,ret['accuracy']])
-
-# 	# Variating Number of Cycles
-# 	ret = wine_test(max_iter=250)
-# 	table.add_row([250,0.1,0,0.7,ret['accuracy']])
-# 	ret = wine_test(max_iter=750)
-# 	table.add_row([750,0.1,0,0.7,ret['accuracy']])
-# 	ret = wine_test(max_iter=1000)
-# 	table.add_row([1000,0.1,0,0.7,ret['accuracy']])
-
-# 	# Variating Training set size
-# 	ret = wine_test(train_size=0.5)
-# 	table.add_row([500,0.1,0,0.5,ret['accuracy']])
-# 	ret = wine_test(train_size=0.6)
-# 	table.add_row([500,0.1,0,0.6,ret['accuracy']])
-# 	ret = wine_test(train_size=0.9)
-# 	table.add_row([500,0.1,0,0.9,ret['accuracy']])
-
-# 	# Variation Momentum
-# 	ret = wine_test(alpha=0.1)
-# 	table.add_row([500,0.1,0.1,0.7,ret['accuracy']])
-# 	ret = wine_test(alpha=0.3)
-# 	table.add_row([500,0.1,0.3,0.7,ret['accuracy']])
-# 	ret = wine_test(alpha=0.7)
-# 	table.add_row([500,0.1,0.7,0.7,ret['accuracy']])
-
-# 	# Printing Results
-# 	print(table)
-
-# elif op == 2:
-	print('Origin of Music Choosen')
-	table = PrettyTable()
-	table.field_names = ["Number of Cycles","Learning Speed","Momentum","Training set size","First file Mean Square Error","Second file Mean Square Error"]
-
-	#Variando a velocidade de aprendizagem
-	err = tracks_test(eta=0.1)
-	table.add_row([500,0.1,0.5,0.7,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.3)
-	table.add_row([500,0.3,0.5,0.7,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.5)
-	table.add_row([500,0.5,0.5,0.7,err['error_1'],err['error_2']])
-
-	#Variando o número de ciclos
-	err = tracks_test(eta=0.5,max_iter=300)
-	table.add_row([300,0.5,0.5,0.7,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.5,max_iter=500)
-	table.add_row([700,0.5,0.5,0.7,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.5,max_iter=700)
-	table.add_row([1000,0.5,0.5,0.7,err['error_1'],err['error_2']])
-
-	#Variando o tamanho do conjunto de treinamento
-	err = tracks_test(eta=0.5,train_size=0.5)
-	table.add_row([500,0.5,0.5,0.5,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.5,train_size=0.75)
-	table.add_row([500,0.5,0.5,0.75,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.5,train_size=0.9)
-	table.add_row([500,0.5,0.5,0.9,err['error_1'],err['error_2']])
-
-	#Variando o Momentum
-	err = tracks_test(eta=0.5,alpha=0.1)
-	table.add_row([500,0.5,0.1,0.7,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.5,alpha=0.3)
-	table.add_row([500,0.5,0.3,0.7,err['error_1'],err['error_2']])
-	err = tracks_test(eta=0.5,alpha=0.7)
-	table.add_row([500,0.5,0.7,0.7,err['error_1'],err['error_2']])
-
-	# Imprimindo os resultados em tabelas
-	print(table)
