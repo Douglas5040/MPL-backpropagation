@@ -185,8 +185,8 @@ class MLP(object):
 		sqerror = sqerror/test_set.shape[0]
 		
 		return {
-			"accurary": accuracy,
-			"error": sqerror
+			"precisao": accuracy,
+			"err": sqerror
 		}
 	#Fim da classe MLP
 

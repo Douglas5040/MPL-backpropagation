@@ -58,7 +58,7 @@ def wine_test(eta=0.1,alpha=0,max_iter=500,train_size=0.7):
 
 print('Wine')
 table = PrettyTable()
-table.field_names = ["Numero de Ciclos","Velocidade de Aprendizagem","Momento","Tamanho do conj Treinamento","Erro do quadrado", "precisao"]
+table.field_names = ["Número de Ciclos","Velocidade de Aprendizagem","Momentum","Tamanho do conj Treinamento","Erro quadrático", "Precisão"]
 
 # Variação da velocidade de aprendizagem
 print('\n\n### Testando Velocidade de Aprendizagem ###')
