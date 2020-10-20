@@ -89,9 +89,9 @@ err = music_geo_test(eta=0.5,train_size=0.5)
 table.add_row([500,0.5,0.5,0.5,err['err_1'],err['err_2'],err['precisao']])
 err = music_geo_test(eta=0.5,train_size=0.75)
 table.add_row([500,0.5,0.5,0.75,err['err_1'],err['err_2'],err['precisao']])
-err = music_geo_test(eta=0.5,train_size=0.9)
+err = music_geo_test(eta=0.5,train_size=0.8)
 table.add_row([500,0.5,0.5,0.9,err['err_1'],err['err_2'],err['precisao']])
-err = music_geo_test(eta=0.5,train_size=1.5)
+err = music_geo_test(eta=0.5,train_size=0.9)
 table.add_row([500,0.5,0.5,0.9,err['err_1'],err['err_2'],err['precisao']])
 
 # Momentum

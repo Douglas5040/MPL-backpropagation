@@ -176,7 +176,9 @@ class MLP(object):
 			error = y_i - y_hat_i
 			if (np.sum((error)**2) == 0):
 				correct = correct + 1
+				print('correct: ', correct)
 			sqerror = sqerror + np.sum(error*error)
+			#print('\n>>>>>>>>>>CORRECT: ', correct)
 
 			pass
 
@@ -194,77 +196,3 @@ class MLP(object):
 def diff(first, second):
         second = set(second)
         return [item for item in first if item not in second]
-
-
-
-# Função que lê o conteúdo de um arquivo e transforma em matriz
-def matrix(contents):
-	return [item.split(',') for item in contents.split('\n')[:-1]]
-
-def class_ind(Y):
-	unique_Y = set(Y)
-	#print('unique_Y=',len(unique_Y),'\n')
-	size = (Y.shape[0],len(unique_Y))
-	res = np.zeros(size)
-	for i in range(0,Y.shape[0]):
-		res[i][Y[i].astype(np.int)-1] = 1
-
-	#print('res=',res,'\n')
-	return res
-
-def wine_test(eta=0.1,alpha=0,max_iter=500,train_size=0.7):
-	for file in os.listdir():
-		if(file.endswith('.data')):
-			# Pré-processamento dos arquivos do Dataset 'Wine'
-			data = open(file).read()
-			X = matrix(data)
-			X = np.array(X)
-			X = X.astype(np.float)
-			Y = X[:,0]
-			X = X[:,1:X.shape[1]]
-			# Normalizando X
-			for i in range(X.shape[1]):
-				X[:,i] = (X[:,i] - np.amin(X[:,i])) / (np.amax(X[:,i]) - np.amin(X[:,i]))
-			
-			# Binarizando as classes output
-			Y = class_ind(Y)
-			
-
-	print('\nPré-processamento da base Wine - Done')
-	mlp = MLP()
-	return mlp.run(X,Y,'C',eta=eta,alpha=alpha,max_iter=max_iter,train_size=train_size)
-
-def tracks_test(eta=0.1,alpha=0.5,max_iter=500,train_size=0.7):
-	mlp = MLP()
-	n = 1
-	ret = {}
-	for file in os.listdir():
-		if(file.endswith('.txt')):
-			# Pré-processamento dos arquivos do Dataset 'Origin of Music'
-			data = open(file).read()
-			X = matrix(data)
-			X = np.array(X)
-			X = X.astype(np.float)
-			Y = X[:,X.shape[1]-2:X.shape[1]]
-			X = X[:,0:X.shape[1]-2]
-
-			# Normalizando X e Y
-			for i in range(X.shape[1]):
-				X[:,i] = (X[:,i] - np.amin(X[:,i])) / (np.amax(X[:,i]) - np.amin(X[:,i]))
-			for i in range(Y.shape[1]):
-				Y[:,i] = (Y[:,i] - np.amin(Y[:,i])) / (np.amax(Y[:,i]) - np.amin(Y[:,i]))
-			
-			print('\nPreprocessing Origin of Music file ',n,' Done')
-			res = mlp.run(X,Y,'R',eta=eta,alpha=alpha,max_iter=max_iter,train_size=train_size)
-			
-
-			# Salvando o erro para cada arquivo em posições diferentes
-			if n == 1:
-				ret['error_1'] = res['error']
-			if n == 2:
-				ret['error_2'] = res['error']
-
-			# Adicionando o contador do arquivo
-			n = n+1
-
-	return ret
